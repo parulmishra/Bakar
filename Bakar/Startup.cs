@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Bakar.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Bakar
 {
@@ -29,6 +32,15 @@ namespace Bakar
         {
             // Add framework services.
             services.AddMvc();
+            services.AddEntityFrameworkMySql()
+                    .AddDbContext<BakarContext>(options =>
+                                              options
+                                                   .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<BakarContext>()
+                .AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +58,7 @@ namespace Bakar
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseIdentity();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

@@ -1,4 +1,4 @@
-@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +31,30 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Bakar</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="nav navbar-nav navbar-left">
+                    <input type="text" class="w3-bar-item w3-input search" placeholder="Search.." />
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="user"><a asp-area="" asp-controller="Profile" asp-action="Index">@User.Identity.Name</a></li>
+                    <li class="user"><a asp-area="" asp-controller="Profile" asp-action="Friends">Friends</a></li>
+                    <li class="user"><a asp-area="" asp-controller="Profile" asp-action="Notifications">Notifications</a></li>
+                    <li>
+                        @using (Html.BeginForm("LogOff", "User"))
+                        {
+                            <input type="submit" class="logoff" value="Log Out" />
+                        }
+                    </li>
                 </ul>
+            }
+            else
+            { 
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="user"><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                    <li class="user"><a asp-area="" asp-controller="User" asp-action="Signup">Sign Up</a></li>
+                </ul>
+            }
             </div>
         </div>
     </nav>

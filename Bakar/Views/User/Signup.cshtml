@@ -1,0 +1,20 @@
+﻿@using Bakar.ViewModels
+@model SignupViewModel
+
+<div class="well">
+    <h2>Register a new User</h2>
+    <hr/>
+    @using (Html.BeginForm("Signup", "User", "FormMethod.Post"))
+    { 
+        <h3>@Html.LabelFor(user=>user.Email)</h3><br/>
+        <h3>@Html.TextBoxFor(user=>user.Email)</h3><br/>
+
+        <h3>@Html.LabelFor(user=>user.Password)</h3><br/>
+        <h3>@Html.PasswordFor(user=>user.Password)</h3><br/>
+
+        <h3>@Html.LabelFor(user=>user.ConfirmPassword)</h3><br/>
+        <h3>@Html.PasswordFor(user=>user.ConfirmPassword)</h3><br/>
+
+        <input type="submit" value="SignUp" />
+    }
+    </div>
